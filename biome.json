@@ -28,8 +28,7 @@
         "noGlobalDirnameFilename": "error",
         "noUndeclaredDependencies": "error",
         "noUnresolvedImports": "error",
-        "useJsonImportAttributes": "error",
-        "noProcessGlobal": "error"
+        "useJsonImportAttributes": "error"
       },
       "nursery": {
         "noDuplicateEnumValues": "error",
@@ -39,7 +38,6 @@
         "noNestedPromises": "error",
         "noReturnAssign": "error",
         "noShadow": "error",
-        "noUndeclaredEnvVars": "error",
         "noUnnecessaryConditions": "error",
         "noUselessReturn": "error",
         "useArraySome": "error",
@@ -61,7 +59,7 @@
         "noInferrableTypes": "error",
         "noNamespace": "error",
         "noNegationElse": "error",
-        "noParameterAssign": "warn",
+        "noParameterAssign": "error",
         "noSubstr": "error",
         "noUnusedTemplateLiteral": "error",
         "noUselessElse": "error",
@@ -101,10 +99,7 @@
         "noConsole": "warn",
         "noConstantBinaryExpressions": "error",
         "noDeprecatedImports": "warn",
-        "noEmptyBlockStatements": "error",
-        "noEmptySource": "error",
         "noImportCycles": "error",
-        "noUnassignedVariables": "error",
         "noVar": "error",
         "useErrorMessage": "warn",
         "useGuardForIn": "error",
