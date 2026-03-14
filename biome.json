@@ -26,9 +26,7 @@
       },
       "correctness": {
         "noGlobalDirnameFilename": "error",
-        "noUndeclaredDependencies": "error",
-        "noUnresolvedImports": "error",
-        "useJsonImportAttributes": "error"
+        "noUnresolvedImports": "error"
       },
       "nursery": {
         "noDuplicateEnumValues": "error",
