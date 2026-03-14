@@ -4,12 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nest build",
-    "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint-format": "biome check --write"
+    "build": "nest build",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "check:staged": "biome check --staged",
+    "check:ci": "biome ci .",
+    "analyze": "knip",
+    "gen:module": "nest generate module",
+    "gen:controller": "nest generate controller",
+    "gen:service": "nest generate service",
+    "gen:resource": "nest generate resource"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -27,6 +35,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
     "globals": "^16.0.0",
+    "knip": "^5.86.0",
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
