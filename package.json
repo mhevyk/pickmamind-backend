@@ -11,7 +11,7 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
-    "check:staged": "biome check --staged --write",
+    "check:staged": "biome check --staged --write --no-errors-on-unmatched",
     "check:ci": "biome ci .",
     "analyze": "knip",
     "gen:module": "nest generate module",
