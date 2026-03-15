@@ -2,7 +2,7 @@ import { Module, type ModuleMetadata } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller.js";
 import { AppService } from "./app.service.js";
-import { AppEnvService } from "./config/app/app-env.service.js";
+import { AppEnvService } from "./config/app/index.js";
 import { ConfigService } from "./config/config.service.js";
 import { configuration } from "./config/index.js";
 
