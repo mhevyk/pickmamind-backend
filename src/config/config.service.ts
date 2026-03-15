@@ -6,18 +6,8 @@ import type { AppConfig } from "./app/index.js";
 export class ConfigService {
   constructor(private readonly configService: NestConfigService) {}
 
-  private getRequiredConfig<T>(key: string): T {
-    const config = this.configService.get<T>(key);
-
-    if (!config) {
-      throw new Error(`${key} config not found`);
-    }
-
-    return config;
-  }
-
   get app(): AppConfig {
-    return this.getRequiredConfig<AppConfig>("app");
+    return this.configService.getOrThrow<AppConfig>("app");
   }
 
   get isDevelopment(): boolean {
