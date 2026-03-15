@@ -11,13 +11,14 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
-    "check:staged": "biome check --staged",
+    "check:staged": "biome check --staged --write",
     "check:ci": "biome ci .",
     "analyze": "knip",
     "gen:module": "nest generate module",
     "gen:controller": "nest generate controller",
     "gen:service": "nest generate service",
-    "gen:resource": "nest generate resource"
+    "gen:resource": "nest generate resource",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -32,6 +33,7 @@
     "@nestjs/schematics": "^11.0.0",
     "@types/node": "^22.10.7",
     "knip": "^5.86.0",
+    "lefthook": "^2.1.4",
     "typescript": "^5.7.3"
   }
 }
