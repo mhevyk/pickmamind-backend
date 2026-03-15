@@ -1,24 +1,27 @@
 import { Module, type ModuleMetadata } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { Environment } from "src/enums/index.js";
 import { AppController } from "./app.controller.js";
 import { AppService } from "./app.service.js";
-import { AppEnvService } from "./config/app/index.js";
-import { ConfigService } from "./config/config.service.js";
+import { ConfigDomainModule } from "./config/config-domain.module.js";
 import { configuration } from "./config/index.js";
+
+const nodeEnv = process.env.NODE_ENV || Environment.Development;
+const envFilePath = [`.env.${nodeEnv}`, ".env"];
 
 const meta: ModuleMetadata = {
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: configuration,
-      envFilePath: [`.env.${process.env.NODE_ENV}`],
+      envFilePath,
       cache: true,
       expandVariables: true,
     }),
+    ConfigDomainModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ConfigService, AppEnvService],
-  exports: [ConfigService, AppEnvService],
+  providers: [AppService],
 };
 
 @Module(meta)
