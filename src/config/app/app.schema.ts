@@ -1,12 +1,18 @@
 import { z } from "zod";
+import { Environment } from "../../enums/index.js";
+
+const MIN_PORT_VALUE = 1;
+const MAX_PORT_VALUE = 65_535;
 
 export const appSchema = z.object({
-  NODE_ENV: z.enum(["development", "production"]).default("development"),
+  NODE_ENV: z
+    .enum([Environment.Development, Environment.Production])
+    .default(Environment.Development),
   PORT: z.coerce
     .number()
     .int()
-    .min(1, "Port must be >= 1")
-    .max(65_535, "Port must be <= 65535")
+    .min(MIN_PORT_VALUE, `Port must be >= ${MIN_PORT_VALUE}`)
+    .max(MAX_PORT_VALUE, `Port must be <= ${MAX_PORT_VALUE}`)
     .default(3000),
 });
 

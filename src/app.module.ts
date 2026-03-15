@@ -2,8 +2,9 @@ import { Module, type ModuleMetadata } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller.js";
 import { AppService } from "./app.service.js";
+import { AppEnvService } from "./config/app/app-env.service.js";
 import { ConfigService } from "./config/config.service.js";
-import { configuration } from "./config/configuration.js";
+import { configuration } from "./config/index.js";
 
 const meta: ModuleMetadata = {
   imports: [
@@ -16,8 +17,8 @@ const meta: ModuleMetadata = {
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, ConfigService],
-  exports: [ConfigService],
+  providers: [AppService, ConfigService, AppEnvService],
+  exports: [ConfigService, AppEnvService],
 };
 
 @Module(meta)
