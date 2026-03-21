@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService as NestConfigService } from "@nestjs/config";
 import { ConfigDomainKey } from "../../shared/enums/index.js";
-import type { AppConfig } from "./app/app.schema.js";
+import type { AppConfig } from "./app/index.js";
 
 @Injectable()
 export class ConfigService {
