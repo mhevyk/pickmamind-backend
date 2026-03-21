@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          fetch-depth: 0   # needed for tags
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+
+      - name: Setup node
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Deploy
+        run: |
+          echo "Deploying release $GITHUB_REF"
+          # Example deploy commands:
+          # scp -r ./dist user@server:/path/to/app
+          # rsync -avz ./dist user@server:/path/to/app
+          # docker build -t myapp:${GITHUB_REF#refs/tags/} .
+          # docker push myrepo/myapp:${GITHUB_REF#refs/tags/}
