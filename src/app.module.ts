@@ -6,7 +6,7 @@ import { ConfigDomainModule } from "./core/config/config-domain.module.js";
 import { configuration } from "./core/config/index.js";
 import { Environment } from "./shared/enums/index.js";
 
-const nodeEnv = process.env.NODE_ENV || Environment.Development;
+const nodeEnv = process.env.NODE_ENV ?? Environment.Development;
 const envFilePath = [`.env.${nodeEnv}`, ".env"];
 
 const meta: ModuleMetadata = {
