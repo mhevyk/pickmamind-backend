@@ -37,20 +37,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Checkout specific tag
-        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Determine deploy tag
+        id: tag
         run: |
-          git fetch --tags
-          git checkout tags/${{ github.event.inputs.tag }}
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Show deploy tag
+        run: echo "Deploying ${{ steps.tag.outputs.tag }}"
 
       - name: Build project
-        run: pnpm run build
-
-      - name: Deploy
-        run: |
-          echo "Deploying release $GITHUB_REF"
-          # Example deploy commands:
-          # scp -r ./dist user@server:/path/to/app
-          # rsync -avz ./dist user@server:/path/to/app
-          # docker build -t myapp:${GITHUB_REF#refs/tags/} .
-          # docker push myrepo/myapp:${GITHUB_REF#refs/tags/}
+        run: echo "Building project for ${{ steps.tag.outputs.tag }}"
