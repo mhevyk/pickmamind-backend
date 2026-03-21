@@ -1,5 +1,5 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigDomainKey } from "../../enums/index.js";
+import { ConfigDomainKey } from "../../../shared/enums/index.js";
 import { appSchema } from "./app.schema.js";
 
 export const appConfig = registerAs(ConfigDomainKey.App, () =>

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Environment } from "../../enums/index.js";
+import { Environment } from "../../../shared/enums/index.js";
 
 const MIN_PORT_VALUE = 1;
 const MAX_PORT_VALUE = 65_535;
