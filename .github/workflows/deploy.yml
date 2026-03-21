@@ -9,7 +9,6 @@ on:
       tag:
         description: "Tag to deploy"
         required: true
-        default: ""
 
 jobs:
   deploy:
@@ -40,7 +39,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Checkout specific tag
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag != '' }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           git fetch --tags
           git checkout tags/${{ github.event.inputs.tag }}
