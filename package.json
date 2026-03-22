@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
-    "start:prod": "pnpm run build && cross-env NODE_ENV=production node dist/main",
+    "start:prod": "node dist/main",
     "build": "nest build",
     "typecheck": "tsc --noEmit",
     "lint": "biome lint .",
