@@ -56,3 +56,4 @@ jobs:
           api_key: ${{ secrets.RENDER_API_KEY }}
           wait_deploy: true
           ref: ${{ steps.set_ref.outputs.deploy_ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Required for private repos
