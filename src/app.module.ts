@@ -1,6 +1,6 @@
 import { Module, type ModuleMetadata } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { Environment } from "src/enums/index.js";
+import { Environment } from "./enums/index.js";
 import { AppController } from "./app.controller.js";
 import { AppService } from "./app.service.js";
 import { ConfigDomainModule } from "./config/config-domain.module.js";
