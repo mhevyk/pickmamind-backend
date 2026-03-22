@@ -18,7 +18,8 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Deploy
-        env:
-          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          curl "$DEPLOY_URL"
+        uses: johnbeynon/render-deploy-action@v0.0.9
+        with:
+          service-id: ${{ secrets.SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          wait-for-success: true
