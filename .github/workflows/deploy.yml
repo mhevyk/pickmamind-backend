@@ -14,8 +14,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
+
+    env:
+      DEPLOY_REF: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref || github.ref_name }}
 
     steps:
       - name: Deploy
@@ -23,6 +27,8 @@ jobs:
         with:
           service_id: ${{ secrets.SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref || github.ref_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} # required for private repositories
+          ref: ${{ env.DEPLOY_REF }}
           wait_deploy: true
+          github_deployment: true
+          deployment_environment: production
