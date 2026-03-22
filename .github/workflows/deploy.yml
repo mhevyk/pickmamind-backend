@@ -7,20 +7,32 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Tag or branch to deploy"
+        description: "Branch or tag to deploy"
         required: true
         default: "main"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
 
     steps:
+      - name: Resolve deploy ref
+        id: set_ref
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            DEPLOY_REF="${{ github.event.inputs.ref }}"
+          else
+            DEPLOY_REF=${GITHUB_REF#refs/tags/}
+          fi
+          echo "Deploy ref is $DEPLOY_REF"
+          echo "deploy_ref=$DEPLOY_REF" >> $GITHUB_OUTPUT
+
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.set_ref.outputs.deploy_ref }}
 
       - name: Deploy
         uses: JorgeLNJunior/render-deploy@v1.5.0
@@ -28,4 +40,4 @@ jobs:
           service_id: ${{ secrets.SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
           wait_deploy: true
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref || github.ref_name }}
+          ref: ${{ steps.set_ref.outputs.deploy_ref }}
