@@ -14,6 +14,7 @@ async function bootstrap() {
   logger.log(
     `Application started on port ${config.app.PORT} (${config.app.NODE_ENV})`,
   );
+  // TEST COMMENT
 }
 
 // TODO: configure error handling
