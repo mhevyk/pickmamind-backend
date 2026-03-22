@@ -1,10 +1,10 @@
 import { Module, type ModuleMetadata } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { Environment } from "./enums/index.js";
 import { AppController } from "./app.controller.js";
 import { AppService } from "./app.service.js";
 import { ConfigDomainModule } from "./config/config-domain.module.js";
 import { configuration } from "./config/index.js";
+import { Environment } from "./enums/index.js";
 
 const nodeEnv = process.env.NODE_ENV || Environment.Development;
 const envFilePath = [`.env.${nodeEnv}`, ".env"];

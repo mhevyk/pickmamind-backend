@@ -5,10 +5,6 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Tag to deploy"
-        required: true
 
 jobs:
   deploy:
@@ -20,38 +16,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-          fetch-depth: 0 # needed for tags
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.32.1
-
-      - name: Setup node
-        uses: actions/setup-node@v5
-        with:
-          node-version-file: ".nvmrc"
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Checkout specific tag
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: |
-          git fetch --tags
-          git checkout tags/${{ github.event.inputs.tag }}
-
-      - name: Build project
-        run: pnpm run build
 
       - name: Deploy
+        env:
+          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          echo "Deploying release $GITHUB_REF"
-          # Example deploy commands:
-          # scp -r ./dist user@server:/path/to/app
-          # rsync -avz ./dist user@server:/path/to/app
-          # docker build -t myapp:${GITHUB_REF#refs/tags/} .
-          # docker push myrepo/myapp:${GITHUB_REF#refs/tags/}
+          curl "$DEPLOY_URL"
