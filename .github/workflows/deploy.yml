@@ -17,6 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Ensure tag is on main branch
+        run: |
+          TAG_REF=${GITHUB_REF#refs/tags/}
+          echo "Tag: $TAG_REF"
+          # Find the branch that contains the tag
+          if ! git branch -r --contains "refs/tags/$TAG_REF" | grep -q "origin/main"; then
+            echo "Tag $TAG_REF is not on main branch. Exiting."
+            exit 1
+          fi
+          echo "Tag is on main, continuing..."
+
       - name: Deploy
         uses: johnbeynon/render-deploy-action@v0.0.9
         with:
