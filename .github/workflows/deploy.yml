@@ -32,4 +32,4 @@ jobs:
           ref: ${{ env.DEPLOY_REF }}
           wait_deploy: true
           github_deployment: true
-          deployment_environment: production
+          deployment_environment: ${{ env.DEPLOY_REF }}
