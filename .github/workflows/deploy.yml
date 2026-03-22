@@ -16,12 +16,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # fetch full history for git checks
 
-      - name: Ensure tag is on main branch
+      - name: Ensure tag is on main branch (only for tag pushes)
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           TAG_REF=${GITHUB_REF#refs/tags/}
           echo "Tag: $TAG_REF"
-          # Find the branch that contains the tag
           if ! git branch -r --contains "refs/tags/$TAG_REF" | grep -q "origin/main"; then
             echo "Tag $TAG_REF is not on main branch. Exiting."
             exit 1
