@@ -3,13 +3,13 @@ name: Deploy
 on:
   push:
     tags:
-      - "v*" # Only deploy on tags starting with v
+      - "v*" # only deploy on tags starting with v
   workflow_dispatch:
     inputs:
       ref:
         description: "Branch or tag to deploy"
         required: true
-        default: "main" # prefilled in the UI
+        default: "main"
 
 jobs:
   deploy:
@@ -18,42 +18,28 @@ jobs:
       contents: read
 
     steps:
-      # Determine deploy ref and store as step output
-      - name: Set deploy ref
-        id: set_ref
+      - name: Resolve ref to build
+        id: resolve_ref_step
         run: |
-          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
-            DEPLOY_REF="${{ github.event.inputs.ref }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            REF="${{ github.event.inputs.ref }}"
           else
-            # Tag push
-            DEPLOY_REF=${GITHUB_REF#refs/tags/}
+            REF="${{ github.ref_name }}"
           fi
-          echo "Deploy ref is $DEPLOY_REF"
-          echo "deploy_ref=$DEPLOY_REF" >> $GITHUB_OUTPUT
 
-      # Checkout the specific branch or tag
+          echo "Deploy ref is $REF"
+          echo "REF=$REF" >> "$GITHUB_OUTPUT"
+
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          ref: ${{ steps.set_ref.outputs.deploy_ref }}
-          fetch-depth: 1 # minimal fetch
-          fetch-tags: true # ensure tags are fetched if needed
+          ref: ${{ steps.resolve_ref_step.outputs.REF }}
 
-      # Optional: sanity check that ref exists
-      - name: Verify ref exists
-        run: |
-          if ! git show-ref --verify --quiet "refs/heads/${{ steps.set_ref.outputs.deploy_ref }}" && \
-             ! git show-ref --verify --quiet "refs/tags/${{ steps.set_ref.outputs.deploy_ref }}"; then
-            echo "Error: Ref '${{ steps.set_ref.outputs.deploy_ref }}' does not exist locally!"
-            exit 1
-          fi
-
-      # Deploy
       - name: Deploy
         uses: JorgeLNJunior/render-deploy@v1.5.0
         with:
           service_id: ${{ secrets.SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} # required for private repos
+          ref: ${{ steps.resolve_ref_step.outputs.REF }}
           wait_deploy: true
-          ref: ${{ steps.set_ref.outputs.deploy_ref }}
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Required for private repos
